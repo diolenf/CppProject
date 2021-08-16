@@ -67,3 +67,25 @@ Tensor::~Tensor(){
 	}
 	delete[] data;
 }
+
+Tensor::Tensor(const Tensor& that) {
+	r = that.r;
+	c = that.c;
+	d = that.d;
+	data = new float** [r];
+	for (int i = 0; i < r; i++) {
+		data[i] = new float* [c];
+
+		for (int j = 0; j < c; j++) {
+			data[i][j] = new float[d];
+		}
+	}
+	for (int i = 0; i < r; i++) {
+		for (int j = 0; j < c; j++) {
+			for (int k = 0; k < d; k++) {
+				data[i][j][k] = that.data[i][j][k];
+			}
+		}
+	}
+
+}

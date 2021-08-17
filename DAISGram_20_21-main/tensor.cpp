@@ -11,6 +11,9 @@
 #define FLT_MAX 3.402823466e+38F /* max value */
 #define FLT_MIN 1.175494351e-38F /* min positive value */
 
+struct dimension_missmatch {
+};
+
 using namespace std;
 
 
@@ -92,7 +95,7 @@ Tensor::Tensor(const Tensor& that) {
 
 bool Tensor::operator==(const Tensor& rhs) const {
 	if (c != rhs.c || r != rhs.r || d != rhs.d)
-		return false;
+		throw dimension_missmatch();
 	else {
 		bool rs = true;
 		int i = 0;

@@ -11,7 +11,13 @@
 #define FLT_MAX 3.402823466e+38F /* max value */
 #define FLT_MIN 1.175494351e-38F /* min positive value */
 
-struct dimension_missmatch {
+struct dimension_mismatch {
+};
+
+struct concat_wrong_dimension{
+};
+
+struct unable_to_read_file{
 };
 
 using namespace std;
@@ -95,7 +101,7 @@ Tensor::Tensor(const Tensor& that) {
 
 bool Tensor::operator==(const Tensor& rhs) const {
 	if (c != rhs.c || r != rhs.r || d != rhs.d)
-		throw dimension_missmatch();
+		throw dimension_mismatch();
 	else {
 		bool rs = true;
 		int i = 0;
@@ -115,5 +121,57 @@ bool Tensor::operator==(const Tensor& rhs) const {
 		}
 		return rs;
 	}
+}
+
+int Tensor::rows() const{
+	return r;
+}
+
+int Tensor::cols() const{
+	return c;
+}
+
+int Tensor::depth() const{
+	return d;
+}
+
+float Tensor::getMin(int k) const{
+	float min = this->operator()(0, 0, k);
+	for (int i = 0; i < r; i++) {
+		for (int j = 0; j < c; j++) {
+			if (this->operator()(i, j, k) < min)
+				min = this->operator()(i, j, k);
+		}
+	}
+	return min;
+}
+
+float Tensor::getMax(int k) const{
+	float max = this->operator()(0, 0, k);
+	for (int i = 0; i < r; i++) {
+		for (int j = 0; j < c; j++) {
+			if (this->operator()(i, j, k) > max)
+				max = this->operator()(i, j, k);
+		}
+	}
+	return max;
+}
+
+void Tensor::showSize() const{
+	std::cout << r << "x" << c << "x" << d;
+}
+
+std::ostream& operator<<(std::ostream& stream, const Tensor& obj){
+	for (int i = 0; i < obj.r; i++) {
+		for (int j = 0; j < obj.c; j++) {
+			stream << "[";
+			for (int k = 0; k < obj.d; k++) {
+				stream << obj(i, j, k) << ",";
+			}
+			stream << "\b] ";
+		}
+		stream << std::endl;
+	}
+	return stream;
 }
 

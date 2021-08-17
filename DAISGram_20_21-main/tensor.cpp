@@ -89,3 +89,28 @@ Tensor::Tensor(const Tensor& that) {
 	}
 
 }
+
+bool Tensor::operator==(const Tensor& rhs) const {
+	if (c != rhs.c || r != rhs.r || d != rhs.d)
+		return false;
+	else {
+		bool rs = true;
+		int i = 0;
+		while (i < r && rs) {
+			int j = 0;
+			while (j < c && rs) {
+				int k = 0;
+				while (k < d && rs) {
+					if (std::fabs(data[i][j][k] - rhs.data[i][j][k]) >= EPSILON) {
+						rs = false;
+					}
+					k++;
+				}
+				j++;
+			}
+			i++;
+		}
+		return rs;
+	}
+}
+

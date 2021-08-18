@@ -173,6 +173,7 @@ std::ostream& operator<<(std::ostream& stream, const Tensor& obj){
 		stream << std::endl;
 	}
 	return stream;
+}
 
 Tensor Tensor:: operator/ (const tensor& rhs)const{
  if(r!=rhs.r||c!=rhs.c||d!=rhs.d)

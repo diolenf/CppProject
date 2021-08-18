@@ -25,9 +25,9 @@ using namespace std;
 
 /**
  * Random Initialization
- * 
+ *
  * Perform a random initialization of the tensor
- * 
+ *
  * @param mean The mean
  * @param std  Standard deviation
  */
@@ -43,7 +43,7 @@ void Tensor::init_random(float mean, float std){
                     this->operator()(i,j,k)= distribution(generator);
                 }
             }
-        }    
+        }
 
     }else{
         throw(tensor_not_initialized());
@@ -173,5 +173,18 @@ std::ostream& operator<<(std::ostream& stream, const Tensor& obj){
 		stream << std::endl;
 	}
 	return stream;
-}
 
+Tensor Tensor:: operator/ (const tensor& rhs)const{
+ if(r!=rhs.r||c!=rhs.c||d!=rhs.d)
+    throw dimension_mismatch();
+
+  Tensor a=rhs;
+  for(int i=0;i<r;i++){
+   for(int j=0;j<c;j++){
+    for(int k=0;k<d;k++){
+      a.data[i][j][k]=data[i][j][k]/a.data[i][j][k];
+      }
+    }
+  }
+ return a;
+}

@@ -189,3 +189,15 @@ Tensor Tensor:: operator/ (const tensor& rhs)const{
   }
  return a;
 }
+
+Tensor Tensor::padding(int pad_h, int pad_w)const {
+	Tensor aux( r + 2 * pad_h, c + 2 * pad_w, d);
+	for (int i = 0; i < r; i++) {
+		for (int j = 0; j < c; j++) {
+			for (int k = 0; k < d; k++) {
+				aux(i + pad_h, j + pad_w, k) = data[i][j][k];
+			}
+		}
+	}
+	return aux;
+}

@@ -201,3 +201,23 @@ Tensor Tensor::padding(int pad_h, int pad_w)const {
 	}
 	return aux;
 }
+
+Tensor Tensor::subset(unsigned int row_start, unsigned int row_end, unsigned int col_start,
+			 unsigned int col_end, unsigned int depth_start, unsigned int depth_end) const
+{
+
+	int new_r = row_end - row_start;
+	int new_c = col_end - col_start;
+	int new_d = depth_end - depth_start;
+
+	Tensor newt(new_r, new_c, new_d);
+	for (int i = row_start; i < row_end; i++) {
+		for (int j = col_start; j < col_end; j++) {
+			for (int k = depth_start; k < depth_end; k++) {
+				newt(i - row_start, j - col_start, k - depth_start) = this->operator()(i,j,k);
+			}
+		}
+	}
+	return newt;
+}
+

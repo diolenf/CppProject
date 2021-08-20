@@ -11,14 +11,6 @@
 #define FLT_MAX 3.402823466e+38F /* max value */
 #define FLT_MIN 1.175494351e-38F /* min positive value */
 
-struct dimension_mismatch {
-};
-
-struct concat_wrong_dimension{
-};
-
-struct unable_to_read_file{
-};
 
 using namespace std;
 

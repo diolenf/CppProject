@@ -213,3 +213,20 @@ Tensor Tensor::subset(unsigned int row_start, unsigned int row_end, unsigned int
 	return newt;
 }
 
+
+void Tensor::rescale(float new_max=1.0){
+    for(int i=0;i<r;i++){
+        for(int j=0;j<c;j++){
+            for(int k=0;k<d;k++){
+                if(getMax(k)!=getMin(k)){
+                    data[i][j][k]=((data[i][j][k]-getMin(k))/(getMax(k)-getMin(k)))*new_max;
+                }
+                else{
+                    data[i][j][k]=new_max;
+                }
+            }
+        }
+    }
+}
+
+

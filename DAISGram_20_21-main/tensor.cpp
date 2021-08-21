@@ -94,6 +94,8 @@ Tensor::Tensor(const Tensor& that) {
 bool Tensor::operator==(const Tensor& rhs) const {
 	if (c != rhs.c || r != rhs.r || d != rhs.d)
 		throw dimension_mismatch();
+	else if(!data)
+		throw tensor_not_initialized();
 	else {
 		bool rs = true;
 		int i = 0;
@@ -128,6 +130,9 @@ int Tensor::depth() const{
 }
 
 float Tensor::getMin(int k) const{
+	if(!data)
+		throw tensor_not_initialized();
+	
 	float min = this->operator()(0, 0, k);
 	for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
@@ -139,6 +144,9 @@ float Tensor::getMin(int k) const{
 }
 
 float Tensor::getMax(int k) const{
+	if(!data)
+		throw tensor_not_initialized();
+	
 	float max = this->operator()(0, 0, k);
 	for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
@@ -154,15 +162,19 @@ void Tensor::showSize() const{
 }
 
 std::ostream& operator<<(std::ostream& stream, const Tensor& obj){
-	for (int i = 0; i < obj.r; i++) {
-		for (int j = 0; j < obj.c; j++) {
-			stream << "[";
-			for (int k = 0; k < obj.d; k++) {
-				stream << obj(i, j, k) << ",";
+	if(!obj.data)
+		stream << "[]";
+	else {
+		for (int i = 0; i < obj.r; i++) {
+			for (int j = 0; j < obj.c; j++) {
+				stream << "[";
+				for (int k = 0; k < obj.d; k++) {
+					stream << obj(i, j, k) << ",";
+				}
+				stream << "\b] ";
 			}
-			stream << "\b] ";
+			stream << std::endl;
 		}
-		stream << std::endl;
 	}
 	return stream;
 }
@@ -183,6 +195,10 @@ Tensor Tensor:: operator/ (const tensor& rhs)const{
 }
 
 Tensor Tensor::padding(int pad_h, int pad_w)const {
+	
+	if(!data)
+		throw tensor_not_initialized();
+	
 	Tensor aux( r + 2 * pad_h, c + 2 * pad_w, d);
 	for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
@@ -197,10 +213,16 @@ Tensor Tensor::padding(int pad_h, int pad_w)const {
 Tensor Tensor::subset(unsigned int row_start, unsigned int row_end, unsigned int col_start,
 			 unsigned int col_end, unsigned int depth_start, unsigned int depth_end) const
 {
-
+	
+	if(!data)
+		throw tensor_not_initialized();
+	
 	int new_r = row_end - row_start;
 	int new_c = col_end - col_start;
 	int new_d = depth_end - depth_start;
+	
+	if(new_r <= 0 || new_c <= 0 || new_d <= 0)
+		throw unknown_exception();
 
 	Tensor newt(new_r, new_c, new_d);
 	for (int i = row_start; i < row_end; i++) {
@@ -228,5 +250,7 @@ void Tensor::rescale(float new_max=1.0){
         }
     }
 }
+
+
 
 

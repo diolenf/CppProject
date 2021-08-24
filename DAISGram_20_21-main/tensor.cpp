@@ -199,7 +199,7 @@ Tensor Tensor::padding(int pad_h, int pad_w)const {
 	if(!data)
 		throw tensor_not_initialized();
 	
-	Tensor aux( r + 2 * pad_h, c + 2 * pad_w, d);
+	Tensor aux( r + 2 * pad_h, c + 2 * pad_w, d);  
 	for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
@@ -251,6 +251,38 @@ void Tensor::rescale(float new_max=1.0){
     }
 }
 
+void Tensor::read_file(string filename){
+	std::ifstream file(filename);
+	if (!file.is_open())
+		throw unable_to_read_file();
+	file >> r >> c >> d;
+	init(r, c, d);
+	for (int i = 0; i < d; i++) {
+		for (int j = 0; j < r; j++) {
+			for (int k = 0; k < c; k++) {
+				float temp;
+				file >> temp;
+				this->operator()(j, k, i) = temp;
+			}
+		}
+	}
+	file.close();
+}
+
+void Tensor::write_file(string filename) {
+	std::ofstream file(filename);
+	file << r << "\n";
+	file << c << "\n";
+	file << d << "\n";
+	for (int i = 0; i < d; i++) {
+		for (int j = 0; j < r; j++) {
+			for (int k = 0; k < c; k++) {
+				file << this->operator()(j, k, i) <<"\n";
+			}
+		}
+	}
+	file.close();
+}
 
 
 

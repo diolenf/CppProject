@@ -74,3 +74,24 @@ void DAISGram::generate_random(int h, int w, int d){
     data.init_random(128,50);
     data.rescale(255);
 }
+
+
+/* Tested grayscale
+DAISGram DAISGram:grayscale(){
+    float average=0.0;
+    DAISGram output;
+    output.data(getRows,getCols,getDepth);
+    for(int i=0;i<data.r;i++){
+        for(int j=0;j<data.c;j++){
+            for(int k=0;k<data.d,k++){
+                average=average+data(i,j,k);
+            }
+            average=average/data.k;
+            for(int l=0;l<output.data.d;l++){
+                output.data(i,j,l)=average;
+            }
+            average=0.0;
+        }
+    }
+    return output;
+}*/

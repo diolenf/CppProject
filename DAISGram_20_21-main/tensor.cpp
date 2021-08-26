@@ -179,6 +179,47 @@ std::ostream& operator<<(std::ostream& stream, const Tensor& obj){
 	return stream;
 }
 
+Tensor Tensor::operator-(const Tensor& rhs)const{
+  Tensor a;
+ a.init(r,c,d);
+  for (int i = 0; i < r; i++) {
+		for (int j = 0; j < c; j++) {
+			for (int k = 0; k < d; k++) {
+				a.data(i,j,k) = data(i,j,k)-rhs.data(i,j,k);
+			}
+		}
+	}
+	return a;
+}
+
+Tensor Tensor::operator+(const Tensor& rhs)const{
+   Tensor a;
+ a.init(r,c,d);
+  for (int i = 0; i < r; i++) {
+		for (int j = 0; j < c; j++) {
+			for (int k = 0; k < d; k++) {
+				a.data(i,j,k) = data(i,j,k)+rhs.data(i,j,k);
+			}
+		}
+	}
+	return a;
+}
+Tensor Tensor::operator*(const Tensor& rhs)const{
+   Tensor a;
+ a.init(r,c,d);
+  for (int i = 0; i < r; i++) {
+		for (int j = 0; j < c; j++) {
+			for (int k = 0; k < d; k++) {
+				a.data(i,j,k) = data(i,j,k)*rhs.data(i,j,k);
+			}
+		}
+	}
+	return a;
+}
+
+
+
+
 Tensor Tensor:: operator/ (const tensor& rhs)const{
  if(r!=rhs.r||c!=rhs.c||d!=rhs.d)
     throw dimension_mismatch();

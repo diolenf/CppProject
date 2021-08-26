@@ -95,3 +95,40 @@ DAISGram DAISGram:grayscale(){
     }
     return output;
 }*/
+
+
+Tensor DAISGram::swap_channel(int index1, int index2){
+	Tensor res = data;
+	for (int i = 0; i < res.rows(); i++) {
+		for (int j = 0; j < res.cols(); j++) {
+			float aux = res(i, j, index1);
+			res(i, j, index1) = res(i, j, index2);
+			res(i, j, index2) = aux;
+		}
+	}
+	return res;
+}
+
+DAISGram DAISGram::warhol(){
+	DAISGram res;
+	Tensor right_up = swap_channel(0, 1);     //Red <=> green
+	Tensor left_bot = swap_channel(1, 2);     //Blue <=> Green
+	Tensor right_bot = swap_channel(0, 2);    //Red <=> Blue
+	Tensor concat_up = data.concat(right_up,1);
+	Tensor concat_bot = left_bot.concat(right_bot,1);
+	Tensor last = concat_up.concat(concat_bot);
+	res.data = last;
+	return res;
+}
+
+int DAISGram::getRows(){
+	return data.rows();
+}
+
+int DAISGram::getCols() {
+	return data.cols();
+}
+
+int DAISGram::getDepth() {
+	return data.depth();
+}

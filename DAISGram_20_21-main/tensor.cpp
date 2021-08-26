@@ -284,5 +284,28 @@ void Tensor::write_file(string filename) {
 	file.close();
 }
 
+Tensor Tensor::convolve(const Tensor& f)const {
+	if (!data)
+		throw tensor_not_initialized();
+	if (f.r % 2 != 1)
+		throw filter_odd_dimensions();
+	if (f.r != f.c)
+		throw unknown_exception();
+
+	int pad = (f.r - 1) / 2;
+	Tensor res(r, c, d, 0.0);
+	Tensor padded = padding(pad, pad);
+
+	for (int i = 0; i <= padded.r - f.r; i++) {
+		for (int j = 0; j <= padded.c - f.c; j++) {
+			for (int k = 0; k < d; k++) {
+				Tensor aux = padded.subset(i, i + f.r, j, j + f.c, k, k + 1); // 
+				float sum = conv_sum(aux, f);
+				res(i, j, k) = sum;
+			}
+		}
+	}
+	return res;
+}
 
 

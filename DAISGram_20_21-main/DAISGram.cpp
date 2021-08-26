@@ -132,3 +132,22 @@ int DAISGram::getCols() {
 int DAISGram::getDepth() {
 	return data.depth();
 }
+
+DAISGram DAISGram::greenscreen(DAISGram& bkg, int rgb[], float threshold[]){
+	if (getRows() != bkg.getRows() || getCols() != bkg.getCols() || getDepth() != bkg.getDepth())
+		throw dimension_mismatch();
+	DAISGram res;
+	res.data = this->data;
+	for (int i = 0; i < getRows(); i++) {
+		for (int j = 0; j < getCols(); j++) {
+			if (res.data(i, j, 0) >= rgb[0] - threshold[0] && res.data(i, j, 0) <= rgb[0] + threshold[0])
+				res.data(i, j, 0) = bkg.data(i, j, 0);
+			if (res.data(i, j, 1) >= rgb[1] - threshold[1] && res.data(i, j, 1) <= rgb[1] + threshold[1])
+				res.data(i, j, 1) = bkg.data(i, j, 1);
+			if (res.data(i, j, 2) >= rgb[2] - threshold[2] && res.data(i, j, 2) <= rgb[2] + threshold[2])
+				res.data(i, j, 2) = bkg.data(i, j, 2);
+		}
+	}
+	return res;
+}
+

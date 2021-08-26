@@ -218,23 +218,6 @@ Tensor Tensor::operator*(const Tensor& rhs)const{
 }
 
 
-
-
-Tensor Tensor:: operator/ (const tensor& rhs)const{
- if(r!=rhs.r||c!=rhs.c||d!=rhs.d)
-    throw dimension_mismatch();
-
-  Tensor a=rhs;
-  for(int i=0;i<r;i++){
-   for(int j=0;j<c;j++){
-    for(int k=0;k<d;k++){
-      a.data[i][j][k]=data[i][j][k]/a.data[i][j][k];
-      }
-    }
-  }
- return a;
-}
-
 Tensor Tensor::padding(int pad_h, int pad_w)const {
 	
 	if(!data)

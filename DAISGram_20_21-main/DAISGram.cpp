@@ -138,14 +138,22 @@ DAISGram DAISGram::greenscreen(DAISGram& bkg, int rgb[], float threshold[]){
 		throw dimension_mismatch();
 	DAISGram res;
 	res.data = this->data;
+	bool red, green, blue;
+	red = green = blue = false;
 	for (int i = 0; i < getRows(); i++) {
 		for (int j = 0; j < getCols(); j++) {
 			if (res.data(i, j, 0) >= rgb[0] - threshold[0] && res.data(i, j, 0) <= rgb[0] + threshold[0])
-				res.data(i, j, 0) = bkg.data(i, j, 0);
+				red = true;
 			if (res.data(i, j, 1) >= rgb[1] - threshold[1] && res.data(i, j, 1) <= rgb[1] + threshold[1])
-				res.data(i, j, 1) = bkg.data(i, j, 1);
+				green = true;
 			if (res.data(i, j, 2) >= rgb[2] - threshold[2] && res.data(i, j, 2) <= rgb[2] + threshold[2])
-				res.data(i, j, 2) = bkg.data(i, j, 2);
+				blue = true;
+			if (red && green && blue) {
+				for (int k = 0; k < getDepth(); k++) {
+					res.data(i, j, k) = bkg.data(i, j, k);
+				}
+			}
+			red = blue = green = false;
 		}
 	}
 	return res;

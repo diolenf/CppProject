@@ -181,7 +181,7 @@ std::ostream& operator<<(std::ostream& stream, const Tensor& obj){
 
 Tensor Tensor::operator-(const Tensor& rhs)const{
   Tensor a;
- a.init(r,c,d,0.0);
+ a.init(r,c,d);
   for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
@@ -194,7 +194,7 @@ Tensor Tensor::operator-(const Tensor& rhs)const{
 
 Tensor Tensor::operator+(const Tensor& rhs)const{
    Tensor a;
- a.init(r,c,d,0.0);
+ a.init(r,c,d);
   for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
@@ -206,7 +206,7 @@ Tensor Tensor::operator+(const Tensor& rhs)const{
 }
 Tensor Tensor::operator*(const Tensor& rhs)const{
    Tensor a;
- a.init(r,c,d,0.0);
+ a.init(r,c,d);
   for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {

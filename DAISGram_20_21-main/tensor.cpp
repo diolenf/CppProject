@@ -453,5 +453,21 @@ Tensor& Tensor::operator=(const Tensor& other){
 	}
 }
 
+float tensor::operator() (int i,int j,int k)const{
+ if(i>=r||j>=c||k>=d){
+  throw index_out_of_bound();
+  }
+ 
+ else{
+  return Data[i][j][k];
+ }
+}
 
+float& tensir::operator()(int iint j,int k){
+ if(i>=r||j>=c||k>=d){
+  throw index_out_of_bound();
+  }
+  float& a=data[i][j][k];
+  return a;
+}
 

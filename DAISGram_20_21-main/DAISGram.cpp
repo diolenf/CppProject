@@ -93,6 +93,7 @@ DAISGram DAISGram:grayscale(){
         }
     }
     return output;
+<<<<<<< Updated upstream
 }
 
 DAISGram DAISGram:brighten(float bright){
@@ -112,11 +113,18 @@ DAISGram DAISGram:brighten(float bright){
     return output;
 }
 
+=======
+}*/
+
+
+/*tested sharpen */ /*
+>>>>>>> Stashed changes
 DAISGram DAISGram:sharpen(){
     DAISGram output;
     Tensor filter;
     filter.read_file("Filters//sharpen.txt");
     output.data=data.convolve(filter);
+<<<<<<< Updated upstream
     output.data.clamp(0,255);
     return output;
 }
@@ -224,3 +232,8 @@ DAISGram DAISGram::greenscreen(DAISGram& bkg, int rgb[], float threshold[]){
 	return res;
 }
 
+=======
+    uotput.data.clamp(0,255);
+    return output;
+}*/
+>>>>>>> Stashed changes

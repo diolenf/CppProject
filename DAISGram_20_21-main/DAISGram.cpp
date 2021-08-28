@@ -76,11 +76,10 @@ void DAISGram::generate_random(int h, int w, int d){
 }
 
 
-/* Tested grayscale
 DAISGram DAISGram:grayscale(){
     float average=0.0;
     DAISGram output;
-    output.data(getRows,getCols,getDepth);
+    output.data(getRows(),getCols(),getDepth());
     for(int i=0;i<data.r;i++){
         for(int j=0;j<data.c;j++){
             for(int k=0;k<data.d,k++){
@@ -94,7 +93,61 @@ DAISGram DAISGram:grayscale(){
         }
     }
     return output;
-}*/
+}
+
+DAISGram DAISGram:brighten(float bright){
+    if (!data.data)
+     throw tensor_not_initialized();
+
+    DAISGram output;
+    output.data.init(getRows(),getCols(),getDepth());
+    for(int i=0;i<getRows;i++){
+        for(int j=0;j<getCols;j++){
+            for(int k=0;k<getDepth;k++){
+                output.data(i,j,k)=data(i,j,k)+bright;
+            }
+        }
+    }
+    output.data.clamp(0,255);
+    return output;
+}
+
+DAISGram DAISGram:sharpen(){
+    DAISGram output;
+    Tensor filter;
+    filter.read_file("Filters//sharpen.txt");
+    output.data=data.convolve(filter);
+    output.data.clamp(0,255);
+    return output;
+}
+
+DAISGram DAISGram:emboss(){
+    DAISGram output;
+    Tensor filter;
+    filter.read_file("Filters//emboss.txt");
+    output.data=data.convolve(filter);
+    output.data.clamp(0,255);
+    return output;
+}
+
+DAISGram DAISGram:smooth(int h=3){
+    float c=1/h*h;
+    Tensor filter(h,h,1,c);
+    DAISGram output;
+    output.data=data.convolve(filter);
+    return output;
+}
+
+DAISGram DAISGram:edge(){
+    Tensor filter;
+    DAISGram output;
+    filter.read_file("Filters//edge.txt");
+    output.data=data.grayscale();
+    output.data=output.data.convolve(fiter);
+    output.data.clamp(0,255);
+    return output;
+}
+
 
 
 Tensor DAISGram::swap_channel(int index1, int index2){

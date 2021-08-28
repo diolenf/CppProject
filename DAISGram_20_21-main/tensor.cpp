@@ -341,7 +341,7 @@ Tensor Tensor::subset(unsigned int row_start, unsigned int row_end, unsigned int
 }
 
 
-void Tensor::rescale(float new_max=1.0){
+void Tensor::rescale(float new_max){
     for(int i=0;i<r;i++){
         for(int j=0;j<c;j++){
             for(int k=0;k<d;k++){
@@ -464,7 +464,7 @@ Tensor& Tensor::operator=(const Tensor& other){
 	}
 }
 
-float Tensor::operator() (int i,int j,int k)const{
+float tensor::operator() (int i,int j,int k)const{
  if(i>=r||j>=c||k>=d){
   throw index_out_of_bound();
   }
@@ -474,7 +474,7 @@ float Tensor::operator() (int i,int j,int k)const{
  }
 }
 
-float& Tensor::operator()(int i,int j,int k){
+float& tensor::operator()(int i,int j,int k){
  if(i>=r||j>=c||k>=d){
   throw index_out_of_bound();
   }

@@ -459,7 +459,7 @@ float tensor::operator() (int i,int j,int k)const{
   }
  
  else{
-  return Data[i][j][k];
+  return data[i][j][k];
  }
 }
 

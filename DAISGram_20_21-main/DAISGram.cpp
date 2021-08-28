@@ -83,7 +83,7 @@ void DAISGram::generate_random(int h, int w, int d){
 DAISGram DAISGram::grayscale(){
     float average=0.0;
     DAISGram output;
-    output.data(getRows(),getCols(),getDepth());
+    output.data.init(getRows(),getCols(),getDepth());
     for(int i=0;i<getRows();i++){
         for(int j=0;j<getCols();j++){
             for(int k=0;k<getDepth();k++){
@@ -138,7 +138,7 @@ DAISGram DAISGram::emboss(){
 }
 
 DAISGram DAISGram::smooth(int h){
-    float c=1/h*h;
+    float c=1.f/((float)h*h);
     Tensor filter(h,h,1,c);
     DAISGram output;
     output.data=data.convolve(filter);

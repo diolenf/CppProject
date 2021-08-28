@@ -80,13 +80,13 @@ DAISGram DAISGram:grayscale(){
     float average=0.0;
     DAISGram output;
     output.data(getRows(),getCols(),getDepth());
-    for(int i=0;i<data.r;i++){
-        for(int j=0;j<data.c;j++){
-            for(int k=0;k<data.d,k++){
+    for(int i=0;i<getRows();i++){
+        for(int j=0;j<getCols();j++){
+            for(int k=0;k<getDepth(),k++){
                 average=average+data(i,j,k);
             }
-            average=average/data.k;
-            for(int l=0;l<output.data.d;l++){
+            average=average/getDepth();
+            for(int l=0;l<output.getDepth;l++){
                 output.data(i,j,l)=average;
             }
             average=0.0;
@@ -101,9 +101,9 @@ DAISGram DAISGram:brighten(float bright){
 
     DAISGram output;
     output.data.init(getRows(),getCols(),getDepth());
-    for(int i=0;i<getRows;i++){
-        for(int j=0;j<getCols;j++){
-            for(int k=0;k<getDepth;k++){
+    for(int i=0;i<getRows();i++){
+        for(int j=0;j<getCols();j++){
+            for(int k=0;k<getDepth();k++){
                 output.data(i,j,k)=data(i,j,k)+bright;
             }
         }
@@ -130,7 +130,7 @@ DAISGram DAISGram:emboss(){
     return output;
 }
 
-DAISGram DAISGram:smooth(int h=3){
+DAISGram DAISGram:smooth(int h){
     float c=1/h*h;
     Tensor filter(h,h,1,c);
     DAISGram output;

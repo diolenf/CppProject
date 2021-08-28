@@ -99,8 +99,8 @@ DAISGram DAISGram::grayscale(){
     return output;
 }
 
-DAISGram DAISGram:brighten(float bright){
-    if (getRows = 0)
+DAISGram DAISGram::brighten(float bright){
+    if (getRows() = 0)
 		throw tensor_not_initialized();
 
     DAISGram output;
@@ -119,7 +119,7 @@ DAISGram DAISGram:brighten(float bright){
 
 
 /*tested sharpen */ 
-DAISGram DAISGram:sharpen(){
+DAISGram DAISGram::sharpen(){
     DAISGram output;
     Tensor filter;
     filter.read_file("Filters//sharpen.txt");
@@ -128,7 +128,7 @@ DAISGram DAISGram:sharpen(){
     return output;
 }
 
-DAISGram DAISGram:emboss(){
+DAISGram DAISGram::emboss(){
     DAISGram output;
     Tensor filter;
     filter.read_file("Filters//emboss.txt");
@@ -137,7 +137,7 @@ DAISGram DAISGram:emboss(){
     return output;
 }
 
-DAISGram DAISGram:smooth(int h){
+DAISGram DAISGram::smooth(int h){
     float c=1/h*h;
     Tensor filter(h,h,1,c);
     DAISGram output;
@@ -149,8 +149,8 @@ DAISGram DAISGram:edge(){
     Tensor filter;
     DAISGram output;
     filter.read_file("Filters//edge.txt");
-    output.data=data.grayscale();
-    output.data=output.data.convolve(fiter);
+    output=grayscale());
+    output.data=output.data.convolve(filter);
     output.data.clamp(0,255);
     return output;
 }
@@ -194,12 +194,11 @@ int DAISGram::getDepth() {
 }
 
 
-DAISGram::blend(const DAISGram &rhs, float alpha) 
-{ 
-if(alpha <0|| alpha>1) 
-throw(unkown_exception) 
-DAISGram res; 
-res.data = (data *alpha) + (rhs.data * (1-alpha)); 
+DAISGram DAISGram::blend(const DAISGram &rhs, float alpha) { 
+	if(alpha <0 || alpha>1) 
+		throw(unkown_exception) 
+	DAISGram res; 
+	res.data = (data *alpha) + (rhs.data * (1-alpha)); 
 
 return res; 
 }

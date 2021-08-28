@@ -463,7 +463,7 @@ float tensor::operator() (int i,int j,int k)const{
  }
 }
 
-float& tensir::operator()(int iint j,int k){
+float& tensir::operator()(int i,int j,int k){
  if(i>=r||j>=c||k>=d){
   throw index_out_of_bound();
   }
@@ -471,3 +471,43 @@ float& tensir::operator()(int iint j,int k){
   return a;
 }
 
+Tensor Tensor::concat(const Tensor& rhs, int axis)const {
+  Tensor a;
+  if (axis == 0) {
+    if (c != rhs.c || d != rhs.d)
+      throw concat_wrong_dimension();
+
+    a.init(r + rhs.r, c, d);
+    for (int i = 0; i < a.r; i++) {
+      for (int j = 0; j < a.c; j++) {
+        for (int k = 0; k < a.d; k++) {
+          if (i < this->r) {
+            a(i, j, k) = data[i][j][k];
+          }
+          else {
+            a(i, j, k) = rhs(i - this->r, j, k);
+          }
+        }
+      }
+    }
+  }
+  if (axis == 1) {
+    if (r != rhs.r || d != rhs.d)
+      throw concat_wrong_dimension();
+
+    a.init(r, c + rhs.c, d);
+    for (int i = 0; i < a.r; i++) {
+      for (int j = 0; j < a.c; j++) {
+        for (int k = 0; k < a.d; k++) {
+          if (j < this->c) {
+            a(i, j, k) = data[i][j][k];
+          }
+          else {
+            a(i, j, k) = rhs(i, j - this->c, k);
+          }
+        }
+      }
+    }
+  }
+  return a;
+}

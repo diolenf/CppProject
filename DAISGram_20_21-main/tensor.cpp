@@ -414,3 +414,44 @@ Tensor Tensor::convolve(const Tensor& f)const {
 }
 
 
+void Tensor::init(int r, int c, int d, float v){
+	if (data)
+		throw unknown_exception();
+
+	this->r = r;
+	this->c = c;
+	this->d = d;
+	data = new float** [r];
+	for (int i = 0; i < r; i++) {
+		data[i] = new float* [c];
+		for (int j = 0; j < c; j++) {
+			data[i][j] = new float[d];
+			for (int k = 0; k < d; k++) {
+				data[i][j][k] = v;
+			}
+		}
+	}
+}
+
+Tensor& Tensor::operator=(const Tensor& other){
+	if (this == &other)
+		return *this;
+	else {
+		if (r != other.r || c != other.c || d != other.d) {
+			if (data != nullptr)
+				delete[] data;
+			init(other.r, other.c, other.d);
+		}
+		for (int i = 0; i < r; i++) {
+			for (int j = 0; j < r; j++) {
+				for (int k = 0; k < d; k++) {
+					this->operator()(i, j, k) = other(i, j, k);
+				}
+			}
+		}
+		return *this;
+	}
+}
+
+
+

@@ -389,6 +389,17 @@ void Tensor::write_file(string filename) {
 	file.close();
 }
 
+float conv_sum(const Tensor& s, const Tensor& f){
+	float sum = 0.f;
+	for (int i = 0; i < f.rows(); i++) {
+		for (int j = 0; j < f.cols(); j++) {
+			sum += s(i, j, 0) * f(i, j, 0);
+		}
+	}
+	return sum;
+}
+
+
 Tensor Tensor::convolve(const Tensor& f)const {
 	if (!data)
 		throw tensor_not_initialized();

@@ -14,6 +14,7 @@
 
 using namespace std;
 
+Tensor::Tensor() {}
 
 /**
  * Random Initialization
@@ -180,9 +181,9 @@ std::ostream& operator<<(std::ostream& stream, const Tensor& obj){
 }
 
 Tensor Tensor::operator-(const Tensor& rhs)const{
-  Tensor a;
- a.init(r,c,d);
-  for (int i = 0; i < r; i++) {
+    Tensor a;
+    a.init(r,c,d);
+    for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
 				a(i,j,k) = data[i][j][k]-rhs(i,j,k);
@@ -193,9 +194,9 @@ Tensor Tensor::operator-(const Tensor& rhs)const{
 }
 
 Tensor Tensor::operator+(const Tensor& rhs)const{
-   Tensor a;
- a.init(r,c,d);
-  for (int i = 0; i < r; i++) {
+    Tensor a;
+    a.init(r,c,d);
+    for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
 				a(i,j,k) = data[i][j][k]+rhs(i,j,k);
@@ -205,9 +206,9 @@ Tensor Tensor::operator+(const Tensor& rhs)const{
 	return a;
 }
 Tensor Tensor::operator*(const Tensor& rhs)const{
-   Tensor a;
- a.init(r,c,d);
-  for (int i = 0; i < r; i++) {
+    Tensor a;
+	a.init(r,c,d);
+    for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
 				a(i,j,k) = data[i][j][k]*rhs(i,j,k);
@@ -217,9 +218,9 @@ Tensor Tensor::operator*(const Tensor& rhs)const{
 	return a;
 }
 Tensor Tensor::operator/(const Tensor& rhs)const{
-  Tensor a;
- a.init(r,c,d);
-  for (int i = 0; i < r; i++) {
+    Tensor a;
+    a.init(r,c,d);
+    for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
 				a(i,j,k) = data[i][j][k]/rhs(i,j,k);
@@ -230,9 +231,9 @@ Tensor Tensor::operator/(const Tensor& rhs)const{
 }
 
 Tensor Tensor::operator-(const float& rhs)const{
-  Tensor a;
-  a.init(r,c,d);
-  for (int i = 0; i < r; i++) {
+    Tensor a;
+    a.init(r,c,d);
+    for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
 				a(i,j,k) = data[i][j][k]-rhs;
@@ -243,9 +244,9 @@ Tensor Tensor::operator-(const float& rhs)const{
 }
 
 Tensor Tensor::operator+(const float& rhs)const{
-  Tensor a;
-  a.init(r,c,d);
-  for (int i = 0; i < r; i++) {
+    Tensor a;
+    a.init(r,c,d);
+    for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
 				a(i,j,k) = data[i][j][k]+rhs;
@@ -256,9 +257,9 @@ Tensor Tensor::operator+(const float& rhs)const{
 }
 
 Tensor Tensor::operator*(const float& rhs)const{
- Tensor a;
-  a.init(r,c,d);
-  for (int i = 0; i < r; i++) {
+    Tensor a;
+    a.init(r,c,d);
+    for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
 				a(i,j,k) = data[i][j][k]*rhs;
@@ -269,9 +270,9 @@ Tensor Tensor::operator*(const float& rhs)const{
 }
 
 Tensor Tensor::operator/(const float& rhs)const{
- Tensor a;
-  a.init(r,c,d);
-  for (int i = 0; i < r; i++) {
+	Tensor a;
+    a.init(r,c,d);
+    for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
 				a(i,j,k) = data[i][j][k]/rhs;
@@ -282,17 +283,17 @@ Tensor Tensor::operator/(const float& rhs)const{
 }
 
 void Tensor::clamp(float low,float high){
-   for(int i=0;i<r;i++){
-     for(int j=0;j<c;j++){
-	   for(int k=0;k<d;k++){
-	     if(data[i][j][k])<low){
-		 data[i][j][k]=low;
-		  }
-		 if(data[i][j][k]>high){
-		  data[i][j][k]=high;
-		  }
+    for(int i=0;i<r;i++){
+		for(int j=0;j<c;j++){
+			for(int k=0;k<d;k++){
+				if(data[i][j][k])<low){
+				data[i][j][k]=low;
+				}
+				if(data[i][j][k]>high){
+				data[i][j][k]=high;
+				}
+			}
 		}
-	  }
 	}
 }
 

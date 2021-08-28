@@ -8,6 +8,10 @@
 
 using namespace std;
 
+DAISGram::DAISGram() {}
+
+DAISGram::~DAISGram() {}
+
 /**
  * Load a bitmap from file
  *
@@ -76,13 +80,13 @@ void DAISGram::generate_random(int h, int w, int d){
 }
 
 
-DAISGram DAISGram:grayscale(){
+DAISGram DAISGram::grayscale(){
     float average=0.0;
     DAISGram output;
     output.data(getRows(),getCols(),getDepth());
-    for(int i=0;i<data.r;i++){
-        for(int j=0;j<data.c;j++){
-            for(int k=0;k<data.d,k++){
+    for(int i=0;i<getRows();i++){
+        for(int j=0;j<getCols();j++){
+            for(int k=0;k<getDepth(),k++){
                 average=average+data(i,j,k);
             }
             average=average/data.k;

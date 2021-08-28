@@ -100,7 +100,7 @@ DAISGram DAISGram::grayscale(){
 }
 
 DAISGram DAISGram::brighten(float bright){
-    if (getRows() = 0)
+    if (getRows() == 0)
 		throw tensor_not_initialized();
 
     DAISGram output;
@@ -145,11 +145,11 @@ DAISGram DAISGram::smooth(int h){
     return output;
 }
 
-DAISGram DAISGram:edge(){
+DAISGram DAISGram::edge(){
     Tensor filter;
     DAISGram output;
     filter.read_file("Filters//edge.txt");
-    output=grayscale());
+    output=grayscale();
     output.data=output.data.convolve(filter);
     output.data.clamp(0,255);
     return output;
@@ -196,11 +196,10 @@ int DAISGram::getDepth() {
 
 DAISGram DAISGram::blend(const DAISGram &rhs, float alpha) { 
 	if(alpha <0 || alpha>1) 
-		throw(unkown_exception) 
+		throw unkown_exception(); 
 	DAISGram res; 
 	res.data = (data *alpha) + (rhs.data * (1-alpha)); 
-
-return res; 
+	return res;
 }
 
 

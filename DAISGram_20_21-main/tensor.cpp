@@ -352,4 +352,25 @@ void Tensor::init(int r, int c, int d, float v){
 	}
 }
 
+Tensor& Tensor::operator=(const Tensor& other){
+	if (this == &other)
+		return *this;
+	else {
+		if (r != other.r || c != other.c || d != other.d) {
+			if (data != nullptr)
+				delete[] data;
+			init(other.r, other.c, other.d);
+		}
+		for (int i = 0; i < r; i++) {
+			for (int j = 0; j < r; j++) {
+				for (int k = 0; k < d; k++) {
+					this->operator()(i, j, k) = other(i, j, k);
+				}
+			}
+		}
+		return *this;
+	}
+}
+
+
 

@@ -133,6 +133,17 @@ int DAISGram::getDepth() {
 	return data.depth();
 }
 
+
+DAISGram::blend(const DAISGram &rhs, float alpha) 
+{ 
+if(alpha <0|| alpha>1) 
+throw(unkown_exception) 
+DAISGram res; 
+res.data = (data *alpha) + (rhs.data * (1-alpha)); 
+return res; 
+}
+
+
 DAISGram DAISGram::greenscreen(DAISGram& bkg, int rgb[], float threshold[]){
 	if (getRows() != bkg.getRows() || getCols() != bkg.getCols() || getDepth() != bkg.getDepth())
 		throw dimension_mismatch();

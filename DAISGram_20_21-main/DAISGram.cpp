@@ -86,23 +86,22 @@ DAISGram DAISGram::grayscale(){
     output.data(getRows(),getCols(),getDepth());
     for(int i=0;i<getRows();i++){
         for(int j=0;j<getCols();j++){
-            for(int k=0;k<getDepth(),k++){
+            for(int k=0;k<getDepth();k++){
                 average=average+data(i,j,k);
             }
             average=average/getDepth();
-            for(int l=0;l<output.getDepth;l++){
+            for(int l=0;l<output.getDepth();l++){
                 output.data(i,j,l)=average;
             }
             average=0.0;
         }
     }
     return output;
-<<<<<<< Updated upstream
 }
 
 DAISGram DAISGram:brighten(float bright){
-    if (!data.data)
-     throw tensor_not_initialized();
+    if (getRows = 0)
+		throw tensor_not_initialized();
 
     DAISGram output;
     output.data.init(getRows(),getCols(),getDepth());
@@ -117,18 +116,14 @@ DAISGram DAISGram:brighten(float bright){
     return output;
 }
 
-=======
-}*/
 
 
-/*tested sharpen */ /*
->>>>>>> Stashed changes
+/*tested sharpen */ 
 DAISGram DAISGram:sharpen(){
     DAISGram output;
     Tensor filter;
     filter.read_file("Filters//sharpen.txt");
     output.data=data.convolve(filter);
-<<<<<<< Updated upstream
     output.data.clamp(0,255);
     return output;
 }
@@ -236,8 +231,6 @@ DAISGram DAISGram::greenscreen(DAISGram& bkg, int rgb[], float threshold[]){
 	return res;
 }
 
-=======
-    uotput.data.clamp(0,255);
-    return output;
-}*/
->>>>>>> Stashed changes
+DAISGram DAISGram::equalize(){
+	throw method_not_implemented();
+}

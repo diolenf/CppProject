@@ -185,7 +185,7 @@ Tensor Tensor::operator-(const Tensor& rhs)const{
   for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
-				a.data(i,j,k) = data[i][j][k]-rhs.data(i,j,k);
+				a(i,j,k) = data[i][j][k]-rhs(i,j,k);
 			}
 		}
 	}
@@ -198,7 +198,7 @@ Tensor Tensor::operator+(const Tensor& rhs)const{
   for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
-				a.data(i,j,k) = data[i][j][k]+rhs.data(i,j,k);
+				a(i,j,k) = data[i][j][k]+rhs(i,j,k);
 			}
 		}
 	}
@@ -210,7 +210,7 @@ Tensor Tensor::operator*(const Tensor& rhs)const{
   for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
-				a.data(i,j,k) = data[i][j][k]*rhs.data(i,j,k);
+				a(i,j,k) = data[i][j][k]*rhs(i,j,k);
 			}
 		}
 	}
@@ -222,7 +222,7 @@ Tensor Tensor::operator/(const Tensor& rhs)const{
   for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
-				a.data(i,j,k) = data[i][j][k]/rhs.data(i,j,k);
+				a(i,j,k) = data[i][j][k]/rhs(i,j,k);
 			}
 		}
 	}
@@ -235,7 +235,7 @@ Tensor Tensor::operator-(const float& rhs)const{
   for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
-				a.data(i,j,k) = data[i][j][k]-rhs;
+				a(i,j,k) = data[i][j][k]-rhs;
 			}
 		}
 	}
@@ -248,7 +248,7 @@ Tensor Tensor::operator+(const float& rhs)const{
   for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
-				a.data(i,j,k) = data[i][j][k]+rhs;
+				a(i,j,k) = data[i][j][k]+rhs;
 			}
 		}
 	}
@@ -261,7 +261,7 @@ Tensor Tensor::operator*(const float& rhs)const{
   for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
-				a.data(i,j,k) = data[i][j][k]*rhs;
+				a(i,j,k) = data[i][j][k]*rhs;
 			}
 		}
 	}
@@ -274,7 +274,7 @@ Tensor Tensor::operator/(const float& rhs)const{
   for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
-				a.data(i,j,k) = data[i][j][k]/rhs;
+				a(i,j,k) = data[i][j][k]/rhs;
 			}
 		}
 	}
@@ -341,7 +341,7 @@ Tensor Tensor::subset(unsigned int row_start, unsigned int row_end, unsigned int
 }
 
 
-void Tensor::rescale(float new_max=1.0){
+void Tensor::rescale(float new_max){
     for(int i=0;i<r;i++){
         for(int j=0;j<c;j++){
             for(int k=0;k<d;k++){

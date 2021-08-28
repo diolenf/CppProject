@@ -15,6 +15,14 @@ class DAISGram{
     private:
 
         Tensor data;
+		
+		/**
+		*
+		* Utility method, swaps the values of  
+		* data(i,j,index1) with data(i,j,index2)
+		*
+		*/
+		Tensor swap_channel(int index1, int index2);
 
     public:
 

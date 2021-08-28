@@ -453,7 +453,7 @@ Tensor& Tensor::operator=(const Tensor& other){
 	}
 }
 
-float tensor::operator() (int i,int j,int k)const{
+float Tensor::operator() (int i,int j,int k)const{
  if(i>=r||j>=c||k>=d){
   throw index_out_of_bound();
   }
@@ -463,7 +463,7 @@ float tensor::operator() (int i,int j,int k)const{
  }
 }
 
-float& tensor::operator()(int i,int j,int k){
+float& Tensor::operator()(int i,int j,int k){
  if(i>=r||j>=c||k>=d){
   throw index_out_of_bound();
   }

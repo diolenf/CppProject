@@ -286,7 +286,7 @@ void Tensor::clamp(float low,float high){
     for(int i=0;i<r;i++){
 		for(int j=0;j<c;j++){
 			for(int k=0;k<d;k++){
-				if(data[i][j][k])<low){
+				if(data[i][j][k]<low){
 				data[i][j][k]=low;
 				}
 				if(data[i][j][k]>high){
@@ -455,7 +455,7 @@ Tensor& Tensor::operator=(const Tensor& other){
 			init(other.r, other.c, other.d);
 		}
 		for (int i = 0; i < r; i++) {
-			for (int j = 0; j < r; j++) {
+			for (int j = 0; j < c; j++) {
 				for (int k = 0; k < d; k++) {
 					this->operator()(i, j, k) = other(i, j, k);
 				}
@@ -465,7 +465,7 @@ Tensor& Tensor::operator=(const Tensor& other){
 	}
 }
 
-float tensor::operator() (int i,int j,int k)const{
+float Tensor::operator() (int i,int j,int k)const{
  if(i>=r||j>=c||k>=d){
   throw index_out_of_bound();
   }
@@ -475,7 +475,7 @@ float tensor::operator() (int i,int j,int k)const{
  }
 }
 
-float& tensor::operator()(int i,int j,int k){
+float& Tensor::operator()(int i,int j,int k){
  if(i>=r||j>=c||k>=d){
   throw index_out_of_bound();
   }

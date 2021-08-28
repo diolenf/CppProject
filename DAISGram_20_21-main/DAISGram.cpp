@@ -196,7 +196,7 @@ int DAISGram::getDepth() {
 
 DAISGram DAISGram::blend(const DAISGram &rhs, float alpha) { 
 	if(alpha <0 || alpha>1) 
-		throw unkown_exception(); 
+		throw unknown_exception(); 
 	DAISGram res; 
 	res.data = (data *alpha) + (rhs.data * (1-alpha)); 
 	return res;

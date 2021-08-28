@@ -463,7 +463,7 @@ float tensor::operator() (int i,int j,int k)const{
  }
 }
 
-float& tensir::operator()(int i,int j,int k){
+float& tensor::operator()(int i,int j,int k){
  if(i>=r||j>=c||k>=d){
   throw index_out_of_bound();
   }

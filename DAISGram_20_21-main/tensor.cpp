@@ -93,10 +93,12 @@ Tensor::Tensor(const Tensor& that) {
 }
 
 bool Tensor::operator==(const Tensor& rhs) const {
+
 	if (c != rhs.c || r != rhs.r || d != rhs.d)
 		throw dimension_mismatch();
 	else if(!data)
 		throw tensor_not_initialized();
+		
 	else {
 		bool rs = true;
 		int i = 0;
@@ -131,6 +133,7 @@ int Tensor::depth() const{
 }
 
 float Tensor::getMin(int k) const{
+	
 	if(!data)
 		throw tensor_not_initialized();
 	
@@ -145,6 +148,7 @@ float Tensor::getMin(int k) const{
 }
 
 float Tensor::getMax(int k) const{
+	
 	if(!data)
 		throw tensor_not_initialized();
 	
@@ -181,8 +185,13 @@ std::ostream& operator<<(std::ostream& stream, const Tensor& obj){
 }
 
 Tensor Tensor::operator-(const Tensor& rhs)const{
-    Tensor a;
-    a.init(r,c,d);
+	
+	if (c != rhs.c || r != rhs.r || d != rhs.d)
+		throw dimension_mismatch();
+	if(!data)
+		throw tensor_not_initialized();
+
+    Tensor a(r,c,d);
     for (int i = 0; i < r; i++) {
 		for (int j = 0; j < c; j++) {
 			for (int k = 0; k < d; k++) {
@@ -194,6 +203,12 @@ Tensor Tensor::operator-(const Tensor& rhs)const{
 }
 
 Tensor Tensor::operator+(const Tensor& rhs)const{
+	
+	if (c != rhs.c || r != rhs.r || d != rhs.d)
+		throw dimension_mismatch();
+	if(!data)
+		throw tensor_not_initialized();
+
     Tensor a;
     a.init(r,c,d);
     for (int i = 0; i < r; i++) {
@@ -206,6 +221,12 @@ Tensor Tensor::operator+(const Tensor& rhs)const{
 	return a;
 }
 Tensor Tensor::operator*(const Tensor& rhs)const{
+	
+	if (c != rhs.c || r != rhs.r || d != rhs.d)
+		throw dimension_mismatch();
+	if(!data)
+		throw tensor_not_initialized();
+
     Tensor a;
 	a.init(r,c,d);
     for (int i = 0; i < r; i++) {
@@ -218,6 +239,12 @@ Tensor Tensor::operator*(const Tensor& rhs)const{
 	return a;
 }
 Tensor Tensor::operator/(const Tensor& rhs)const{
+
+	if (c != rhs.c || r != rhs.r || d != rhs.d)
+		throw dimension_mismatch();
+	if(!data)
+		throw tensor_not_initialized();
+
     Tensor a;
     a.init(r,c,d);
     for (int i = 0; i < r; i++) {
@@ -231,6 +258,10 @@ Tensor Tensor::operator/(const Tensor& rhs)const{
 }
 
 Tensor Tensor::operator-(const float& rhs)const{
+	
+	if(!data)
+		throw tensor_not_initialized();
+
     Tensor a;
     a.init(r,c,d);
     for (int i = 0; i < r; i++) {
@@ -244,6 +275,10 @@ Tensor Tensor::operator-(const float& rhs)const{
 }
 
 Tensor Tensor::operator+(const float& rhs)const{
+	
+	if(!data)
+		throw tensor_not_initialized();
+
     Tensor a;
     a.init(r,c,d);
     for (int i = 0; i < r; i++) {
@@ -257,6 +292,10 @@ Tensor Tensor::operator+(const float& rhs)const{
 }
 
 Tensor Tensor::operator*(const float& rhs)const{
+	
+	if(!data)
+		throw tensor_not_initialized();
+
     Tensor a;
     a.init(r,c,d);
     for (int i = 0; i < r; i++) {
@@ -270,6 +309,10 @@ Tensor Tensor::operator*(const float& rhs)const{
 }
 
 Tensor Tensor::operator/(const float& rhs)const{
+	
+	if(!data)
+		throw tensor_not_initialized();
+
 	Tensor a;
     a.init(r,c,d);
     for (int i = 0; i < r; i++) {
@@ -283,14 +326,18 @@ Tensor Tensor::operator/(const float& rhs)const{
 }
 
 void Tensor::clamp(float low,float high){
+
+	if(!data)
+		throw tensor_not_initialized();
+
     for(int i=0;i<r;i++){
 		for(int j=0;j<c;j++){
 			for(int k=0;k<d;k++){
 				if(data[i][j][k]<low){
-				data[i][j][k]=low;
+					data[i][j][k]=low;
 				}
 				if(data[i][j][k]>high){
-				data[i][j][k]=high;
+					data[i][j][k]=high;
 				}
 			}
 		}
@@ -327,7 +374,7 @@ Tensor Tensor::subset(unsigned int row_start, unsigned int row_end, unsigned int
 	int new_c = col_end - col_start;
 	int new_d = depth_end - depth_start;
 	
-	if(new_r <= 0 || new_c <= 0 || new_d <= 0)
+	if(new_r <= 0 || new_c <= 0 || new_d <= 0)      		//Checking that the start is not after the end position
 		throw unknown_exception();
 
 	Tensor newt(new_r, new_c, new_d);
@@ -343,6 +390,10 @@ Tensor Tensor::subset(unsigned int row_start, unsigned int row_end, unsigned int
 
 
 void Tensor::rescale(float new_max){
+
+	if(!data)
+		throw tensor_not_initialized();
+
     for(int i=0;i<r;i++){
         for(int j=0;j<c;j++){
             for(int k=0;k<d;k++){
@@ -359,8 +410,10 @@ void Tensor::rescale(float new_max){
 
 void Tensor::read_file(string filename){
 	std::ifstream file(filename);
-	if (!file.is_open())
+
+	if (!file.is_open())                         
 		throw unable_to_read_file();
+
 	file >> r >> c >> d;
 	init(r, c, d);
 	for (int i = 0; i < d; i++) {
@@ -376,7 +429,7 @@ void Tensor::read_file(string filename){
 }
 
 void Tensor::write_file(string filename) {
-	std::ofstream file(filename);
+	std::ofstream file(filename);        //ofstream will create the file itself, no need to check if the file is open or not.
 	file << r << "\n";
 	file << c << "\n";
 	file << d << "\n";
@@ -402,6 +455,7 @@ float conv_sum(const Tensor& s, const Tensor& f){
 
 
 Tensor Tensor::convolve(const Tensor& f)const {
+
 	if (!data)
 		throw tensor_not_initialized();
 	if (f.r % 2 != 1)
@@ -416,9 +470,9 @@ Tensor Tensor::convolve(const Tensor& f)const {
 	for (int i = 0; i <= padded.r - f.r; i++) {
 		for (int j = 0; j <= padded.c - f.c; j++) {
 			for (int k = 0; k < d; k++) {
-				Tensor aux = padded.subset(i, i + f.r, j, j + f.c, k, k + 1); // 
-				float sum = conv_sum(aux, f);
-				res(i, j, k) = sum;
+				Tensor aux = padded.subset(i, i + f.r, j, j + f.c, k, k + 1); //Getting a temporary tensor with the filter dimensions and 1 channel
+				float sum = conv_sum(aux, f); 								 //The sum is done by an auxiliary function
+				res(i, j, k) = sum; 										//Inserting the results of the sum in the resulting tensor
 			}
 		}
 	}
@@ -427,6 +481,7 @@ Tensor Tensor::convolve(const Tensor& f)const {
 
 
 void Tensor::init(int r, int c, int d, float v){
+
 	if (data)
 		throw unknown_exception();
 
@@ -446,10 +501,10 @@ void Tensor::init(int r, int c, int d, float v){
 }
 
 Tensor& Tensor::operator=(const Tensor& other){
-	if (this == &other)
+	if (this == &other)											 //checking if the objects have the same memory area
 		return *this;
 	else {
-		if (r != other.r || c != other.c || d != other.d) {
+		if (r != other.r || c != other.c || d != other.d) {    //checking if the objects have different dimensions in the memory, realocating memory if needed.
 			if (data != nullptr)
 				delete[] data;
 			init(other.r, other.c, other.d);
@@ -466,60 +521,58 @@ Tensor& Tensor::operator=(const Tensor& other){
 }
 
 float Tensor::operator() (int i,int j,int k)const{
- if(i>=r||j>=c||k>=d){
-  throw index_out_of_bound();
-  }
- 
- else{
-  return data[i][j][k];
- }
+ 	if(i>=r||j>=c||k>=d)
+  		throw index_out_of_bound();
+  	else
+  		return data[i][j][k];
 }
 
 float& Tensor::operator()(int i,int j,int k){
- if(i>=r||j>=c||k>=d){
-  throw index_out_of_bound();
-  }
-  float& a=data[i][j][k];
-  return a;
+ 	if(i>=r||j>=c||k>=d)
+  		throw index_out_of_bound();
+  	else 
+ 		return data[i][j][k];
 }
 
 Tensor Tensor::concat(const Tensor& rhs, int axis)const {
-  Tensor a;
-  if (axis == 0) {
-    if (c != rhs.c || d != rhs.d)
-      throw concat_wrong_dimension();
+	
+    Tensor a;
+    if (axis == 0) {
+		if (c != rhs.c || d != rhs.d)
+		throw concat_wrong_dimension();
 
-    a.init(r + rhs.r, c, d);
-    for (int i = 0; i < a.r; i++) {
-      for (int j = 0; j < a.c; j++) {
-        for (int k = 0; k < a.d; k++) {
-          if (i < this->r) {
-            a(i, j, k) = data[i][j][k];
-          }
-          else {
-            a(i, j, k) = rhs(i - this->r, j, k);
-          }
-        }
-      }
-    }
-  }
-  if (axis == 1) {
-    if (r != rhs.r || d != rhs.d)
-      throw concat_wrong_dimension();
+		a.init(r + rhs.r, c, d);
+		for (int i = 0; i < a.r; i++) {
+			for (int j = 0; j < a.c; j++) {
+				for (int k = 0; k < a.d; k++) {
+					if (i < this->r) {
+						a(i, j, k) = data[i][j][k];
+					}
+					else {
+						a(i, j, k) = rhs(i - this->r, j, k);
+					}
+				}
+			}
+		}
+ 	}
+  	if (axis == 1) {
+		
+		if (r != rhs.r || d != rhs.d)
+			throw concat_wrong_dimension();
 
-    a.init(r, c + rhs.c, d);
-    for (int i = 0; i < a.r; i++) {
-      for (int j = 0; j < a.c; j++) {
-        for (int k = 0; k < a.d; k++) {
-          if (j < this->c) {
-            a(i, j, k) = data[i][j][k];
-          }
-          else {
-            a(i, j, k) = rhs(i, j - this->c, k);
-          }
-        }
-      }
+		a.init(r, c + rhs.c, d);
+		for (int i = 0; i < a.r; i++) {
+			for (int j = 0; j < a.c; j++) {
+				for (int k = 0; k < a.d; k++) {
+					if (j < this->c) {
+						a(i, j, k) = data[i][j][k];
+					}
+					else {
+						a(i, j, k) = rhs(i, j - this->c, k);
+					}
+				}
+			}
+		}
     }
-  }
-  return a;
+ 	return a;
 }

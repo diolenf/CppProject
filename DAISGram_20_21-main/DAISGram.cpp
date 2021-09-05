@@ -100,18 +100,9 @@ DAISGram DAISGram::grayscale(){
 }
 
 DAISGram DAISGram::brighten(float bright){
-    if (getRows() == 0)
-		throw tensor_not_initialized();
-
     DAISGram output;
-    output.data.init(getRows(),getCols(),getDepth());
-    for(int i=0;i<getRows();i++){
-        for(int j=0;j<getCols();j++){
-            for(int k=0;k<getDepth();k++){
-                output.data(i,j,k)=data(i,j,k)+bright;
-            }
-        }
-    }
+    output.data = this->data;
+    output.data = output.data + bright;
     output.data.clamp(0,255);
     return output;
 }
@@ -171,8 +162,8 @@ Tensor DAISGram::swap_channel(int index1, int index2){
 
 DAISGram DAISGram::warhol(){
 	DAISGram res;
-	Tensor right_up = swap_channel(0, 1);     //Red <=> green
-	Tensor left_bot = swap_channel(1, 2);     //Blue <=> Green
+	Tensor right_up = swap_channel(0, 1);       //Red <=> green
+	Tensor left_bot = swap_channel(1, 2);      //Blue <=> Green
 	Tensor right_bot = swap_channel(0, 2);    //Red <=> Blue
 	Tensor concat_up = data.concat(right_up,1);
 	Tensor concat_bot = left_bot.concat(right_bot,1);
